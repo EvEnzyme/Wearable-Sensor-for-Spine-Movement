@@ -60,10 +60,10 @@ void loop()
   BNO::sAxisAnalog_t   sLiaAnalog2 = bno2.getAxis(BNO::eAxisLia); // read linear acceleration
   BNO::sAxisAnalog_t   sGrvAnalog1 = bno1.getAxis(BNO::eAxisGrv); // read gravity vector
   BNO::sAxisAnalog_t   sGrvAnalog2 = bno2.getAxis(BNO::eAxisGrv); // read gravity vector
-  BNO::sAxisAnalog_t   sEulAnalog1 = bno1.getEul();                  // read euler angle
-  BNO::sAxisAnalog_t   sEulAnalog2 = bno2.getEul();                  // read euler angle
-  BNO::sAxisAnalog_t   sQuaAnalog1 = bno1.getQua();                  // read quaternion
-  BNO::sAxisAnalog_t   sQuaAnalog2 = bno2.getQua();                  // read quaternion
+  BNO::sEulAnalog_t   sEulAnalog1 = bno1.getEul();                  // read euler angle
+  BNO::sEulAnalog_t   sEulAnalog2 = bno2.getEul();                  // read euler angle
+  BNO::sQuaAnalog_t   sQuaAnalog1 = bno1.getQua();                  // read quaternion
+  BNO::sQuaAnalog_t   sQuaAnalog2 = bno2.getQua();                  // read quaternion
 
 
   
@@ -80,10 +80,10 @@ void loop()
   Serial.print("sensor 2 lia analog: (unit mg)       "); printAxisData(sLiaAnalog2);
   Serial.print("sensor 1 grv analog: (unit mg)       "); printAxisData(sGrvAnalog1);
   Serial.print("sensor 2 grv analog: (unit mg)       "); printAxisData(sGrvAnalog2);
-  Serial.print("sensor 1 eul analog: (unit degree)   "); Serial.print(" head: "); Serial.print(sEulAnalog1.head); Serial.print(" roll: "); Serial.print(sEulAnalog.roll);  Serial.print(" pitch: "); Serial.println(sEulAnalog.pitch);
-  Serial.print("sensor 2 eul analog: (unit degree)   "); Serial.print(" head: "); Serial.print(sEulAnalog2.head); Serial.print(" roll: "); Serial.print(sEulAnalog.roll);  Serial.print(" pitch: "); Serial.println(sEulAnalog.pitch);
-  Serial.print("sensor 1 qua analog: (no unit)       "); Serial.print(" w: "); Serial.print(sQuaAnalog1.w); printAxisData(sQuaAnalog);
-  Serial.print("sensor 2 qua analog: (no unit)       "); Serial.print(" w: "); Serial.print(sQuaAnalog2.w); printAxisData(sQuaAnalog);
+  Serial.print("sensor 1 eul analog: (unit degree)   "); Serial.print(" head: "); Serial.print(sEulAnalog1.head); Serial.print(" roll: "); Serial.print(sEulAnalog1.roll);  Serial.print(" pitch: "); Serial.println(sEulAnalog1.pitch);
+  Serial.print("sensor 2 eul analog: (unit degree)   "); Serial.print(" head: "); Serial.print(sEulAnalog2.head); Serial.print(" roll: "); Serial.print(sEulAnalog2.roll);  Serial.print(" pitch: "); Serial.println(sEulAnalog2.pitch);
+  Serial.print("sensor 1 qua analog: (no unit)       "); Serial.print(" w: "); Serial.print(sQuaAnalog1.w); printAxisData(sQuaAnalog1);
+  Serial.print("sensor 2 qua analog: (no unit)       "); Serial.print(" w: "); Serial.print(sQuaAnalog2.w); printAxisData(sQuaAnalog2);
 
   Serial.println("========  analog data print end  ========");
 
