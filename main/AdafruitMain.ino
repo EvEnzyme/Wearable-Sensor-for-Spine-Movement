@@ -71,11 +71,11 @@ void loop() {
     // Serial.println();
     getData(sensor1, accel_cal, gyro_cal, mg);
 
-    Serial.println("sensor2");
-    tcaselect(2);
-    sensor2.getCalibration(&sys, &gyro_cal, &accel_cal, &mg);
-    // Serial.println();
-    getData(sensor2, accel_cal, gyro_cal, mg);
+    // Serial.println("sensor2");
+    // tcaselect(2);
+    // sensor2.getCalibration(&sys, &gyro_cal, &accel_cal, &mg);
+    // // Serial.println();
+    // getData(sensor2, accel_cal, gyro_cal, mg);
 
     delay(100);
 }
