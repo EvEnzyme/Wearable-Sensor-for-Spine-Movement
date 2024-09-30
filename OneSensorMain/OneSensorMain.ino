@@ -66,7 +66,7 @@ void loop() {
   pitchRad = integratedPitch * 3.141592654 / 180.0;
   rollRad  = integratedRoll * 3.141592654 / 180.0;
 
-  // Correct magnetometer readings using pitch and roll
+  // Correct magnetometer readings using pitch and roll: tilt compensation formula
   magXCorrected = mag.x() * cos(pitchRad) - mag.y() * sin(rollRad) * sin(pitchRad) + mag.z() * cos(rollRad) * sin(pitchRad);
   magYCorrected = mag.y() * cos(rollRad) + mag.z() * sin(rollRad);
 

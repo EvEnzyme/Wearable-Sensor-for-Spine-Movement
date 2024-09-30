@@ -11,9 +11,9 @@ arduino = serial.Serial(serial_port, baud_rate)  # Open serial connection
 sleep(1)  # Wait for the connection to stabilize
 
 # Scene setup for the VPython window
-scene.range = 5  # Set the scene's range to 5 units
-scene.width = 600  # Set the scene window's width
-scene.height = 600  # Set the scene window's height
+scene.range = 5
+scene.width = 600
+scene.height = 600
 scene.forward = vector(-1, -1, -1)  # Set initial camera view direction
 
 # Constants for angle conversion
@@ -46,7 +46,7 @@ while True:
     # Convert the string data to radians
     roll = float(split_packet[0]) * deg_to_rad
     pitch = float(split_packet[1]) * deg_to_rad
-    yaw = float(split_packet[2]) * deg_to_rad + np.pi  # Adjust yaw by π for proper alignment
+    yaw = float(split_packet[2]) * deg_to_rad + np.pi
 
     # Print the current orientation angles (in degrees) for debugging
     print(f"Roll = {roll * rad_to_deg:.2f}°, Pitch = {pitch * rad_to_deg:.2f}°, Yaw = {yaw * rad_to_deg:.2f}°")
@@ -55,9 +55,9 @@ while True:
 
     # Calculate direction vectors based on the yaw, pitch, and roll angles
     forward_vector = vector(cos(yaw) * cos(pitch), sin(pitch), sin(yaw) * cos(pitch))  # Forward direction
-    global_up_vector = vector(0, 1, 0)  # The global Y-axis (up direction)
-    side_vector = cross(forward_vector, global_up_vector)  # Side direction (perpendicular to forward and up)
-    adjusted_up_vector = cross(side_vector, forward_vector)  # Adjusted up direction (perpendicular to forward and side)
+    unit_vector_up = vector(0, 1, 0)
+    side_vector = cross(forward_vector, unit_vector_up)  # perpendicular to forward and up
+    adjusted_up_vector = cross(side_vector, forward_vector)  # perpendicular to forward and side
 
     # Update the orientation of the arrows representing the object's direction
     front_arrow.axis = forward_vector
