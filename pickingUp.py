@@ -5,7 +5,7 @@ import math
 import serial
 
 # Setup serial connection to the Arduino (or other microcontroller)
-serial_port = '/dev/cu.usbmodem101'
+serial_port = '(PORT)'
 baud_rate = 115200
 arduino = serial.Serial(serial_port, baud_rate)  # Open serial connection
 sleep(1)  # Wait for the connection to stabilize
