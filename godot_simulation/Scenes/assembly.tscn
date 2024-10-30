@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://bb1vtbjcg7wyi"]
+
+[sub_resource type="Curve3D" id="Curve3D_7fnxy"]
+_data = {
+"points": PackedVector3Array(-0.520691, 5.06044, 3.82904, 0.520691, -5.06044, -3.82904, -0.00860596, 5.12007, -0.0201416, 0, 0, 0, 0, 0, 0, 0, -5, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_4mkli"]
+size = Vector3(1.2, 1, 0.7)
+
+[node name="assembly" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 1.74846e-07, 0, -1.74846e-07, 1, 0, 0, 5)
+visible = false
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_7fnxy")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.99079, 0.115256, -0.0699893, 0.000162254, 0.517975, 0.8553, 0.134844, -0.84749, 0.51323, 0.0674716, 4.29477, -0.578884)
+progress = 1.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D"]
+mesh = SubResource("BoxMesh_4mkli")
+
+[node name="PathFollow3D2" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.990778, 0.122794, -0.055961, 0.000355198, 0.412293, 0.910955, 0.134945, -0.902651, 0.408473, 0.130642, 3.41082, -1.04118)
+progress = 2.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D2"]
+mesh = SubResource("BoxMesh_4mkli")
+
+[node name="PathFollow3D3" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.990766, 0.128972, -0.0399873, 0.000574687, 0.292091, 0.956302, 0.135027, -0.947578, 0.289338, 0.178758, 2.47605, -1.39113)
+progress = 3.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D3"]
+mesh = SubResource("BoxMesh_4mkli")
+
+[node name="PathFollow3D4" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.990761, 0.133149, -0.0227801, 0.000810816, 0.16276, 0.98658, 0.135082, -0.977561, 0.161159, 0.210204, 1.50319, -1.61683)
+progress = 4.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D4"]
+mesh = SubResource("BoxMesh_4mkli")
+
+[node name="PathFollow3D5" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.99077, 0.135004, -0.00532947, 0.00105004, 0.0317484, 0.999405, 0.135107, -0.990264, 0.0313149, 0.224237, 0.508614, -1.71289)
+progress = 5.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D5"]
+mesh = SubResource("BoxMesh_4mkli")
+
+[node name="PathFollow3D6" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(0.990767, 0.134622, 0.0114141, 0.00127937, -0.093823, 0.995511, 0.1351, -0.986376, -0.093134, 0.221101, -0.490223, -1.68128)
+progress = 6.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D6"]
+mesh = SubResource("BoxMesh_4mkli")
