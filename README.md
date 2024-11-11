@@ -6,6 +6,10 @@
 <img title='row pitch yaw in relation to the xyz axis>' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-3sSEV0A_zFPNYYn4BraJ68UqKO_Z_E8Kbw&s'>
 
 
+## Data Flow and Software Responsibilities
+
+<img src="images/dataflow.png">
+
 ## Simulating the Spine Curve in Godot
 
 ### 0. Some Background Knowledge -- Bezier Curve
