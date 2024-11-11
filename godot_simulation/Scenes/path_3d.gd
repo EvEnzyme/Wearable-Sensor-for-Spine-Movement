@@ -36,6 +36,9 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	# Force the socket to refresh its status
+	_stream.poll()
+
 	var new_status: int = _stream.get_status()
 	# changing past event status to the current one + emitting associated signal for the previous status
 	if new_status != _status:
