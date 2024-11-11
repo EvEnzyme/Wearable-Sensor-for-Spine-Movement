@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bb1vtbjcg7wyi"]
+[gd_scene load_steps=5 format=3 uid="uid://bb1vtbjcg7wyi"]
 
-[ext_resource type="Script" path="res://Scenes/path_3d.gd" id="1_iqox0"]
-[ext_resource type="Script" path="res://Scenes/client.gd" id="2_vno45"]
+[ext_resource type="Script" path="res://Scenes/TCPconnection.gd" id="1_xgrwe"]
+[ext_resource type="Script" path="res://Scenes/testclient.gd" id="2_vno45"]
 
 [sub_resource type="Curve3D" id="Curve3D_7fnxy"]
 _data = {
@@ -13,8 +13,6 @@ point_count = 2
 [sub_resource type="BoxMesh" id="BoxMesh_4mkli"]
 size = Vector3(1.2, 1, 0.7)
 
-[sub_resource type="Curve3D" id="Curve3D_8s13a"]
-
 [node name="assembly" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -23,7 +21,6 @@ visible = false
 
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_7fnxy")
-script = ExtResource("1_iqox0")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
 transform = Transform3D(0.99079, 0.115256, -0.0699893, 0.000162265, 0.517974, 0.8553, 0.134844, -0.84749, 0.51323, 0.0674716, 4.29477, -0.578884)
@@ -67,6 +64,8 @@ progress = 6.0
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D6"]
 mesh = SubResource("BoxMesh_4mkli")
 
-[node name="ClientNode" type="Path3D" parent="Path3D"]
-curve = SubResource("Curve3D_8s13a")
+[node name="TCPconnection" type="Node" parent="Path3D"]
+script = ExtResource("1_xgrwe")
+
+[node name="testclient" type="Node" parent="Path3D"]
 script = ExtResource("2_vno45")
