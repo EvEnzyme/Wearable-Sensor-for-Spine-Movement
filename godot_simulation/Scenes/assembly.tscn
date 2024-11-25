@@ -1,72 +1,74 @@
-[gd_scene load_steps=6 format=3 uid="uid://bb1vtbjcg7wyi"]
+[gd_scene load_steps=4 format=3 uid="uid://bb1vtbjcg7wyi"]
 
 [ext_resource type="Script" path="res://Scenes/path_3d.gd" id="1_iqox0"]
-[ext_resource type="Script" path="res://Scenes/client.gd" id="2_vno45"]
 
 [sub_resource type="Curve3D" id="Curve3D_7fnxy"]
 _data = {
-"points": PackedVector3Array(-0.520691, 5.06044, 3.82904, 0.520691, -5.06044, -3.82904, -0.00860596, 5.12007, -0.0201416, 0, 0, 0, 0, 0, 0, 0, -5, 0),
+"points": PackedVector3Array(1.58, 1.136, 0, 7, -42, 0, 0, -2.5, 0, -7, -42, 0, 1.58, -1.136, 0, 0, 2.5, -0.02),
 "tilts": PackedFloat32Array(0, 0)
 }
 point_count = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_4mkli"]
-size = Vector3(1.2, 1, 0.7)
-
-[sub_resource type="Curve3D" id="Curve3D_8s13a"]
+size = Vector3(1.2, 1, 0.6)
 
 [node name="assembly" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 1.74846e-07, 0, -1.74846e-07, 1, 0, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 1.74846e-07, 0, -1.74846e-07, 1, 0, 1, 10)
 visible = false
 
 [node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00488, 5.43828, 10.1065)
 curve = SubResource("Curve3D_7fnxy")
 script = ExtResource("1_iqox0")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.99079, 0.115256, -0.0699893, 0.000162265, 0.517974, 0.8553, 0.134844, -0.84749, 0.51323, 0.0674716, 4.29477, -0.578884)
-progress = 1.0
+transform = Transform3D(-1.62906e-07, 0.986298, -0.164384, 5.95992e-08, 0.164383, 0.986308, 0.99991, 1.5089e-07, -8.557e-08, 0, -2.5, 0)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D"]
 mesh = SubResource("BoxMesh_4mkli")
 
 [node name="PathFollow3D2" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.990778, 0.122794, -0.0559611, 0.000355217, 0.412293, 0.910955, 0.134945, -0.902651, 0.408473, 0.130642, 3.41082, -1.04118)
-progress = 2.0
+transform = Transform3D(1.4859e-06, 0.987249, -0.158643, -8.91005e-06, 0.158646, 0.987233, 0.999906, -5.34191e-08, 9.03287e-06, 0.193059, -3.67936, -5.33574e-06)
+visible = false
+progress = 1.19503
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D2"]
 mesh = SubResource("BoxMesh_4mkli")
 
 [node name="PathFollow3D3" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.990766, 0.128972, -0.0399873, 0.00057468, 0.292092, 0.956302, 0.135027, -0.947578, 0.289338, 0.178758, 2.47605, -1.39113)
-progress = 3.0
+transform = Transform3D(2.80964e-06, 0.988191, -0.152672, -1.81777e-05, 0.152674, 0.988177, 0.999908, -1.18588e-09, 1.83935e-05, 0.379119, -4.85982, -2.16955e-05)
+visible = false
+progress = 2.39006
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D3"]
 mesh = SubResource("BoxMesh_4mkli")
 
 [node name="PathFollow3D4" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.990761, 0.133149, -0.0227801, 0.000810831, 0.16276, 0.98658, 0.135082, -0.977561, 0.161159, 0.210205, 1.50319, -1.61683)
-progress = 4.0
+transform = Transform3D(4.29569e-06, 0.98913, -0.146447, -2.80712e-05, 0.146448, 0.989119, 0.99991, -1.38027e-07, 2.83974e-05, 0.557891, -6.0414, -4.96492e-05)
+visible = false
+progress = 3.5851
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D4"]
 mesh = SubResource("BoxMesh_4mkli")
 
 [node name="PathFollow3D5" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.99077, 0.135004, -0.00532946, 0.00105003, 0.0317484, 0.999405, 0.135107, -0.990264, 0.0313149, 0.224237, 0.508613, -1.71289)
-progress = 5.0
+transform = Transform3D(5.95347e-06, 0.990072, -0.139941, -3.8561e-05, 0.139944, 0.990054, 0.999919, -4.98011e-07, 3.90138e-05, 0.729058, -7.2241, -8.98268e-05)
+visible = false
+progress = 4.78013
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D5"]
 mesh = SubResource("BoxMesh_4mkli")
 
 [node name="PathFollow3D6" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(0.990767, 0.134622, 0.0114141, 0.00127937, -0.0938229, 0.995511, 0.135099, -0.986376, -0.093134, 0.221101, -0.490224, -1.68128)
-progress = 6.0
+transform = Transform3D(7.37388e-06, 0.991014, -0.133131, -4.95571e-05, 0.133132, 0.991009, 0.999919, -7.10074e-07, 5.00972e-05, 0.892272, -8.40793, -0.00014293)
+visible = false
+progress = 5.97516
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D6"]
 mesh = SubResource("BoxMesh_4mkli")
 
-[node name="ClientNode" type="Path3D" parent="Path3D"]
-curve = SubResource("Curve3D_8s13a")
-script = ExtResource("2_vno45")
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.983442, 0, 0.181223, 0, 1, 0, -0.181223, 0, 0.983442, 4.94462, 3.04, 9.88304)
