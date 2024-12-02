@@ -71,7 +71,7 @@
 
 ## 2. Thought Process in Solving the Problem
 
-- For a 4-point Bezier Curve with points, $ \mathbf n=4 $, the equation with respect to the four points `A`, `B`, `C`,`D` is given by:
+- For a 4-point Bezier Curve with points, $$\mathbf n=4$$, the equation with respect to the four points `A`, `B`, `C`,`D` is given by:
 
     $$\mathbf{B}(t) = (1-t)^3\mathbf{A}+3(1-t)^2t\mathbf{B}+3(1-t)t^2\mathbf{C}+t^3\mathbf{D},\ 0 \le t \le 1$$
 
@@ -96,7 +96,7 @@
 
 2. Multiple the rotation matrix with a basis vector:
 
-    $$\mathbf{v}_{\text{rotated}} = R \cdot \mathbf{v},$$ v = \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}
+    $$\mathbf{v}_{\text{rotated}} = R \cdot \mathbf{v},$$ v = \begin{bmatrix} 1\\\ 0\\\ 0 \end{bmatrix}
 
 4. I then used $\mathbf{v}_{\text{rotated}}$ as the gradient vector $\frac {d\mathbf{B}}{dt}$
 
