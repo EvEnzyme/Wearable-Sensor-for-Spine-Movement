@@ -97,11 +97,11 @@
 2. Multiple the rotation matrix with a basis vector:
 
     $$\mathbf{v}_{\text{rotated}} = R \cdot \mathbf{v},\ \ \$$
-    v = \begin{bmatrix}
+    v = \begin{matrix}
         1 \\
         0 \\
         0
-        \end{bmatrix}
+        \end{matrix}
    
 4. I then used $\mathbf{v}_{\text{rotated}}$ as the gradient vector $\frac {d\mathbf{B}}{dt}$
 
