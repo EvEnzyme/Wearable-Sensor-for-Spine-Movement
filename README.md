@@ -27,7 +27,7 @@
 
 - **Mathematical Definition:**
 
-    - The general formula of Bézier curve $ \mathbf{B}(t) $ is given by:
+    - The general formula of Bézier curve $\mathbf{B}(t)$ is given by:
 
         $$
         \mathbf{B}(t) = \sum_{i=0}^{n} \binom{n}{i} (1 - t)^{n-i} t^i \mathbf{P}_i
