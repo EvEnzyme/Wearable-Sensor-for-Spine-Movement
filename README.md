@@ -78,7 +78,7 @@
     with derivative:
 
     
-    $$\frac{d\mathbf{B}}{dt} = -3(1 - t)^2 \mathbf{A} + 3(1 - t)(1 - 3t) \mathbf{B} + 3t(2 - 3t) \mathbf{C} + 3t^2 \mathbf{D}$$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  (*)
+    $$\frac{d\mathbf{B}}{dt} = -3(1 - t)^2 \mathbf{A} + 3(1 - t)(1 - 3t) \mathbf{B} + 3t(2 - 3t) \mathbf{C} + 3t^2 \mathbf{D} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  (*)$$
     
 
 - Here, `A` and `D` are known. 
@@ -96,12 +96,12 @@
 
 2. Multiple the rotation matrix with a basis vector:
 
-    $$\mathbf{v}_{\text{rotated}} = R \cdot \mathbf{v}$$,\ \ \
-    v = \begin{bmatrix}
-    1 \\
-    0 \\
-    0
-    \end{bmatrix}
+    $$\mathbf{v}_{\text{rotated}} = R \cdot \mathbf{v},\ \ \$$
+    $$v = \begin{bmatrix}$$
+    $$1 \\$$
+    $$0 \\$$
+    $$0$$
+    $$\end{bmatrix}$$
    
 4. I then used $\mathbf{v}_{\text{rotated}}$ as the gradient vector $\frac {d\mathbf{B}}{dt}$
 
