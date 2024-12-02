@@ -29,21 +29,18 @@
 
     - The general formula of Bézier curve $\mathbf{B}(t)$ is given by:
 
-        $$
-        \mathbf{B}(t) = \sum_{i=0}^{n} \binom{n}{i} (1 - t)^{n-i} t^i \mathbf{P}_i
-        $$
+        $$\mathbf{B}(t) = \sum_{i=0}^{n} \binom{n}{i} (1 - t)^{n-i} t^i \mathbf{P}_i$$
+        
         where t describes the position of the points along the curve, range from 0 to 1.
 
     - The formula can be expanded as:
 
-        $$
-        \mathbf{B}(t) = (1 - t)^n \mathbf{P}_0 + \binom{n}{1} (1 - t)^{n-1} t \mathbf{P}_1 + \cdots + \binom{n}{n-1} (1 - t) t^{n-1} \mathbf{P}_{n-1} + t^n \mathbf{P}_n, \quad 0 \leq t \leq 1
-        $$
-
+        $$\mathbf{B}(t) = (1 - t)^n \mathbf{P}_0 + \binom{n}{1} (1 - t)^{n-1} t \mathbf{P}_1 + \cdots + \binom{n}{n-1} (1 - t) t^{n-1} \mathbf{P}_{n-1} + t^n \mathbf{P}_n, \quad 0 \leq t \leq 1$$
+        
     - The derivative:
-        $$
-        \mathbf{B}'(t) = n \sum_{i=0}^{n-1} b_{i,n-1}(t) (\mathbf{P}_{i+1} - \mathbf{P}_i), \quad 0 \leq t \leq 1
-        $$
+        
+        $$\mathbf{B}'(t) = n \sum_{i=0}^{n-1} b_{i,n-1}(t) (\mathbf{P}_{i+1} - \mathbf{P}_i), \quad 0 \leq t \leq 1$$
+        
 
 ### 1. Defining Our Problem Space
 
@@ -76,19 +73,17 @@
 
 - For a 4-point Bezier Curve with points, $ \mathbf n=4 $, the equation with respect to the four points `A`, `B`, `C`,`D` is given by:
 
-    $$
-    \mathbf{B}(t) = (1-t)^3\mathbf{A}+3(1-t)^2t\mathbf{B}+3(1-t)t^2\mathbf{C}+t^3\mathbf{D},\ 0 \le t \le 1
-    $$
+    $$\mathbf{B}(t) = (1-t)^3\mathbf{A}+3(1-t)^2t\mathbf{B}+3(1-t)t^2\mathbf{C}+t^3\mathbf{D},\ 0 \le t \le 1$$
 
     with derivative:
 
-    $$
-    \frac{d\mathbf{B}}{dt} = -3(1 - t)^2 \mathbf{A} + 3(1 - t)(1 - 3t) \mathbf{B} + 3t(2 - 3t) \mathbf{C} + 3t^2 \mathbf{D} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  (*)
-    $$
+    
+    $$\frac{d\mathbf{B}}{dt} = -3(1 - t)^2 \mathbf{A} + 3(1 - t)(1 - 3t) \mathbf{B} + 3t(2 - 3t) \mathbf{C} + 3t^2 \mathbf{D}$$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  (*)
+    
 
 - Here, `A` and `D` are known. 
-- If we are able to get $ \frac{d\mathbf{B}}{dt} $ at $ \mathbf t=0.2, t=0.8 $ through the row, pitch, yaw angles provided by the two IMUs, then the only unknows we are left with will be `B`, and `C`. 
-- We should then be able to solve the problem by solving the two quadratic equations at $ \mathbf t=0.2, t=0.8 $
+- If we are able to get $\frac{d\mathbf{B}}{dt}$ at $\mathbf t=0.2, t=0.8$ through the row, pitch, yaw angles provided by the two IMUs, then the only unknowns we are left with will be `B`, and `C`. 
+- We should then be able to solve the problem by solving the two quadratic equations at $\mathbf t=0.2, t=0.8$
 
     <span style="color:red">
     Uncertainty 2: The assumption made in here was that the row, pitch, yaw angles we got from the IMU sensors will give us enough information to construct dB/dt, yet this might be false. 
@@ -100,22 +95,22 @@
     <img src='images/rotational_matrix.jpg'>
 
 2. Multiple the rotation matrix with a basis vector:
-    $$
-    \mathbf{v}_{\text{rotated}} = R \cdot \mathbf{v},\ \ \
+
+    $$\mathbf{v}_{\text{rotated}} = R \cdot \mathbf{v}$$,\ \ \
     v = \begin{bmatrix}
     1 \\
     0 \\
     0
     \end{bmatrix}
-    $$`
-3. I then used $\mathbf{v}_{\text{rotated}}$ as the gradient vector $\frac {d\mathbf{B}}{dt}$
+   
+4. I then used $\mathbf{v}_{\text{rotated}}$ as the gradient vector $\frac {d\mathbf{B}}{dt}$
 
     <span style="color:red">
     Uncertainty 3: I'm aware that this step may be wrong but I don't know how to fix it: the roll, pitch, yaw angles gives only the direction of the gradient vector but not the magnitude. I tried normalizing the gradient vector got from this step and use it as dB/dt, but it did't work out and made no logical sense.
     </span>
 
 ### step 2: Solving for B and C knowing A, D, $\frac{d\mathbf{B}}{dt}$
-1. pluged in $ t = 0.2 $ and $ t=0.8 $ into equation $(*)$
+1. pluged in $t = 0.2$ and $t=0.8$ into equation $(*)$
 
     <img src='images/coefficients.jpeg' height = 200px>
 
