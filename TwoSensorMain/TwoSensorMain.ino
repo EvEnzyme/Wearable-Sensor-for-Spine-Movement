@@ -14,11 +14,11 @@ Adafruit_BNO055 sensor2 = Adafruit_BNO055(56, 0x29);
 // initialising an array to store all angle values
 float sensor_angles[2][3] = {[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]};
 // change values to what the safe ranges are in {x, y, z}
-float safe_angle_ranges[3] = {0.0, 0.0, 0.0}; // initialising the safe_angle ranges for a spinal surgery procedure
+float safe_angle_ranges[3] = {8.0, 7.5, 9.0}; // initialising the safe_angle ranges for a spinal surgery procedure
 
 // initialise functions
 void updateSensorAngles(int sensorNum, const sensors_event_t& event);
-void checkRange(float angles[2][3], float safe_ranges[3])
+void checkRange(float angles[2][3], float safe_ranges[3]);
 
 void setup() {
   Serial.begin(115200);   // Start serial communication at 115200 baud
@@ -47,13 +47,7 @@ void loop() {
   // check if angle range is too high
   checkRange(sensor_angles, safe_angle_ranges);
 
-
-  // Check if angle is too large and send a warning (currently in the form of a serial msg)
-  if (((float)event1.orientation.x - (float)event2.orientation.x) < safe_angle_range_x) {
-    Serial.println("")
-  }
-
-  // sensor's order of axes --> python code order for accurate processing
+  // sensor's order of axes --> order for accurate processing (FOR PYTHON VISUALIZATION)
   // roll
   Serial.print((float)event2.orientation.z);
   Serial.print(",");
