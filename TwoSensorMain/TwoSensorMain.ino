@@ -12,7 +12,7 @@ Adafruit_BNO055 sensor1 = Adafruit_BNO055(55, 0x28);
 Adafruit_BNO055 sensor2 = Adafruit_BNO055(56, 0x29);
 
 // initialising an array to store all angle values
-float sensor_angles[2][3] = {[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]};
+float sensor_angles[2][3] = {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}};
 // change values to what the safe ranges are in {x, y, z}
 float safe_angle_ranges[3] = {8.0, 7.5, 9.0}; // initialising the safe_angle ranges for a spinal surgery procedure
 
@@ -42,20 +42,24 @@ void loop() {
   // get angle values
   for (int i = 0; i < 2; i++) {
     updateSensorAngles(i, events[i]);
+    angleConversion(sensor_angles[i]);
   }
+
+  // displaying angle values
+  printValues();
 
   // check if angle range is too high
   checkRange(sensor_angles, safe_angle_ranges);
 
   // sensor's order of axes --> order for accurate processing (FOR PYTHON VISUALIZATION)
   // roll
-  Serial.print((float)event2.orientation.z);
-  Serial.print(",");
-  // pitch
-  Serial.print((float)event2.orientation.y);
-  Serial.print(",");
-  // yaw
-  Serial.println((float)event2.orientation.x);
+  // Serial.print((float)event2.orientation.z);
+  // Serial.print(",");
+  // // pitch
+  // Serial.print((float)event2.orientation.y);
+  // Serial.print(",");
+  // // yaw
+  // Serial.println((float)event2.orientation.x);
 
   // Delay to match the sensor's sampling rate
   delay(BNO055_SAMPLERATE_DELAY_MS);
@@ -68,11 +72,34 @@ void updateSensorAngles(int sensorNum, const sensors_event_t& event) {
   sensor_angles[sensorNum][2] = (float)event.orientation.z;
 }
 
+void angleConversion(float angles[3]) {
+  for (int i = 0; i < 3; i++) {
+    if (angles[i] > 180) {
+      angles[i] = 360 - angles[i];
+    }
+  }
+}
+
+void printValues() {
+Serial.print("Sensor 1: ");
+Serial.print(sensor_angles[0][0]);
+Serial.print(", ");
+Serial.print(sensor_angles[0][1]);
+Serial.print(", ");
+Serial.print(sensor_angles[0][2]);
+Serial.print(" Sensor 2: ");
+Serial.print(sensor_angles[1][0]);
+Serial.print(", ");
+Serial.print(sensor_angles[1][1]);
+Serial.print(", ");
+Serial.println(sensor_angles[1][2]);
+}
+
 // check if the angle range is safe
 void checkRange(float angles[2][3], float safe_ranges[3]) {
-  for (int i = 0; i < sizeof(safe_ranges); i++) {
+  for (int i = 0; i < 3; i++) {
     if ((angles[0][i] - angles[1][i]) > safe_ranges[i]) {
-      Serial.println("Safe angle range exceeded");
+      Serial.println("Safe angle range exceeded"); 
     }
   }
 }
