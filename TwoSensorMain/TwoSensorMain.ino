@@ -86,7 +86,41 @@ void checkRange(float angles[2][3], float safe_ranges[3]) {
 //bluetooth data transfer function
 void btDataTransfer(){
   //test code
+  int I2C_SDA = 11;
+  int I2C_SCL = 12;
+
+  //setup code
+  Serial.begin(115200);
+  Wire.begin(I2C_SDA, I2C_SCL);
+  /*
+  or
+  #define I2C_SDA 11
+  #define I2C_SCL 12
+  */
+
 	int x = 6;
 	Serial.print(x);
+
+  //TODO: either send data variable by variable, or send data in an array.
+
+  /*
+  //data to send:
+  - roll, pitch, yaw -> floats
+  --> sample arguments (PUT INTO FUNCTION): float roll, float pitch, float yaw
+  - whether or not the sensor exceeds the safe angles (xxx process on computer side)
+  --> sample arguments: 
+
+  // roll
+  Serial.print((float)event2.orientation.z);
+  Serial.print(",");
+  // pitch
+  Serial.print((float)event2.orientation.y);
+  Serial.print(",");
+  // yaw
+  Serial.println((float)event2.orientation.x);
+
+  // Delay to match the sensor's sampling rate
+  delay(BNO055_SAMPLERATE_DELAY_MS);
+  */
 
 }
