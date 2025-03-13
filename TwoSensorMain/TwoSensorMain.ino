@@ -13,16 +13,17 @@ Adafruit_BNO055 sensor2 = Adafruit_BNO055(56, 0x29);
 
 // initialising an array to store all angle values
 float sensor_angles[2][3] = {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}};
-// change values to what the safe ranges are in {x, y, z}
-float safe_angle_ranges[3] = {8.0, 7.5, 9.0}; // initialising the safe_angle ranges for a spinal surgery procedure
+// initialize values to what the safe ranges are in {x, y, z}
+float safe_angle_ranges[3] = {8.0, 7.5, 9.0};
 
 // initialise functions
 void updateSensorAngles(int sensorNum, const sensors_event_t& event);
 void checkRange(float angles[2][3], float safe_ranges[3]);
 
+// setup
 void setup() {
   Serial.begin(115200);   // Start serial communication at 115200 baud
-  sensor1.begin();         // Initialize the BNO055 sensor
+  sensor1.begin();         // Initialize the BNO055 sensors
   sensor2.begin();
   delay(1000);            // Delay for sensor startup
   sensor1.setExtCrystalUse(true);  // Use external crystal for better precision
@@ -30,16 +31,18 @@ void setup() {
 
 }
 
+// loop until stopped
 void loop() {
   // initiate event instances
   sensors_event_t event1;
   sensors_event_t event2;
   sensors_event_t events[2] = {event1, event2};
-
+  
+  // get position values per loop
   sensor1.getEvent(&event1);
   sensor2.getEvent(&event2);
 
-  // get angle values
+  // get angle values (converted if on the verge of 0/360 for proper calculations)
   for (int i = 0; i < 2; i++) {
     updateSensorAngles(i, events[i]);
     angleConversion(sensor_angles[i]);
@@ -72,6 +75,7 @@ void updateSensorAngles(int sensorNum, const sensors_event_t& event) {
   sensor_angles[sensorNum][2] = (float)event.orientation.z;
 }
 
+// convert edge angles (around 0/360) to account for both directions of movement
 void angleConversion(float angles[3]) {
   for (int i = 0; i < 3; i++) {
     if (angles[i] > 180) {
@@ -80,6 +84,7 @@ void angleConversion(float angles[3]) {
   }
 }
 
+// print in a standard format
 void printValues() {
 Serial.print("Sensor 1: ");
 Serial.print(sensor_angles[0][0]);
