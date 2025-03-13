@@ -82,3 +82,11 @@ void checkRange(float angles[2][3], float safe_ranges[3]) {
     }
   }
 }
+
+//bluetooth data transfer function
+void btDataTransfer(){
+  //test code
+	int x = 6;
+	Serial.print(x);
+
+}
