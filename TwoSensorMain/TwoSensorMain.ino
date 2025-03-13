@@ -100,6 +100,7 @@ void btDataTransfer(){
 
 	int x = 6;
 	Serial.print(x);
+  //^figure out if it's serial or smth else because serial could be for wired only
 
   //TODO: either send data variable by variable, or send data in an array.
 
