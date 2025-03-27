@@ -1,64 +1,72 @@
-//https://github.com/espressif/arduino-esp32/tree/master/libraries/BLE
+#include <ArduinoBLE.h>
 
-#include <BLEDevice.h>
-#include <BLEUtils.h>
-#include <BLEServer.h>
+BLEService ledService("19B10000-E8F2-537E-4F6C-D104768A1214"); // Bluetooth® Low Energy LED Service
 
-// See the following for generating UUIDs:
-// https://www.uuidgenerator.net/
+// Bluetooth® Low Energy LED Switch Characteristic - custom 128-bit UUID, read and writable by central
+BLEByteCharacteristic switchCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
 
-#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
-#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-
-
-class MyCallbacks: public BLECharacteristicCallbacks {
-    void onWrite(BLECharacteristic *pCharacteristic) {
-      std::string value = pCharacteristic->getValue();
-
-      if (value.length() > 0) {
-        Serial.println("*********");
-        Serial.print("New value: ");
-        for (int i = 0; i < value.length(); i++)
-          Serial.print(value[i]);
-
-        Serial.println();
-        Serial.println("*********");
-      }
-    }
-};
+const int ledPin = LED_BUILTIN; // pin to use for the LED
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  while (!Serial);
 
-  Serial.println("1- Download and install an BLE Terminal FREE");
-  Serial.println("2- Scan for BLE devices in the app");
-  Serial.println("3- Connect to ESP32BLE");
-  Serial.println("4- Go to CUSTOM CHARACTERISTIC in CUSTOM SERVICE and write something");
+  // set LED pin to output mode
+  pinMode(ledPin, OUTPUT);
 
-  BLEDevice::init("ESP32BLE");
-  BLEServer *pServer = BLEDevice::createServer();
+  // begin initialization
+  if (!BLE.begin()) {
+    Serial.println("starting Bluetooth® Low Energy module failed!");
 
-  BLEService *pService = pServer->createService(SERVICE_UUID);
+    while (1);
+  }
 
-  BLECharacteristic *pCharacteristic = pService->createCharacteristic(
-                                         CHARACTERISTIC_UUID,
-                                         BLECharacteristic::PROPERTY_READ |
-                                         BLECharacteristic::PROPERTY_WRITE
-                                       );
+  // set advertised local name and service UUID:
+  BLE.setLocalName("LED");
+  BLE.setAdvertisedService(ledService);
 
-  pCharacteristic->setCallbacks(new MyCallbacks());
+  // add the characteristic to the service
+  ledService.addCharacteristic(switchCharacteristic);
 
-  pCharacteristic->setValue("Hello World");
-  pService->start();
+  // add service
+  BLE.addService(ledService);
 
-  BLEAdvertising *pAdvertising = pServer->getAdvertising();
-  pAdvertising->start();
+  // set the initial value for the characeristic:
+  switchCharacteristic.writeValue(0);
 
-  Serial.print("Server address:");
-  Serial.println(BLEDevice::getAddress().toString().c_str());
+  // start advertising
+  BLE.advertise();
+
+  Serial.println("BLE LED Peripheral");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  delay(2000);
+  // listen for Bluetooth® Low Energy peripherals to connect:
+  BLEDevice central = BLE.central();
+
+  // if a central is connected to peripheral:
+  if (central) {
+    Serial.print("Connected to central: ");
+    // print the central's MAC address:
+    Serial.println(central.address());
+
+    // while the central is still connected to peripheral:
+    while (central.connected()) {
+      // if the remote device wrote to the characteristic,
+      // use the value to control the LED:
+      if (switchCharacteristic.written()) {
+        if (switchCharacteristic.value()) {   // any value other than 0
+          Serial.println("LED on");
+          digitalWrite(ledPin, HIGH);         // will turn the LED on
+        } else {                              // a 0 value
+          Serial.println(F("LED off"));
+          digitalWrite(ledPin, LOW);          // will turn the LED off
+        }
+      }
+    }
+
+    // when the central disconnects, print it out:
+    Serial.print(F("Disconnected from central: "));
+    Serial.println(central.address());
+  }
 }
