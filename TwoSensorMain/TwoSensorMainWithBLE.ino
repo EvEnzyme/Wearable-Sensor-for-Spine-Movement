@@ -1,8 +1,10 @@
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BNO055.h>
+#include <Adafruit_Sensor.h> 
+#include <Adafruit_BNO055.h> //downloaded
 #include <utility/imumaths.h>
 #include <math.h>
+#include <ArduinoBLE.h> //import Arduino BLE library //downloaded
+//all packages installed
 
 // Constants
 #define BNO055_SAMPLERATE_DELAY_MS (100)  // 100ms delay between sensor readings
@@ -12,23 +14,52 @@ Adafruit_BNO055 sensor1 = Adafruit_BNO055(55, 0x28);
 Adafruit_BNO055 sensor2 = Adafruit_BNO055(56, 0x29);
 
 // initialising an array to store all angle values
-float sensor_angles[2][3] = {[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]};
+float sensor_angles[2][3] = {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}};
 // change values to what the safe ranges are in {x, y, z}
 float safe_angle_ranges[3] = {0.0, 0.0, 0.0}; // initialising the safe_angle ranges for a spinal surgery procedure
 
 // initialise functions
 void updateSensorAngles(int sensorNum, const sensors_event_t& event);
-void checkRange(float angles[2][3], float safe_ranges[3])
+void checkRange(float angles[2][3], float safe_ranges[3]);
+
+//initialize bluetooth service and characteristic
+BLEService newService("19B10000-E8F2-537E-4F6C-D104768A1214"); // Bluetooth® Low Energy LED Service
+BLEFloatCharacteristic rollCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
+BLEFloatCharacteristic pitchCharacteristic("19B10002-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
+BLEFloatCharacteristic yawCharacteristic("19B10003-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);
+//const int ledPin = LED_BUILTIN; // pin to use for the LED
 
 void setup() {
-  Serial.begin(115200);   // Start serial communication at 115200 baud
+  //Serial.begin(115200);   // Start serial communication at 115200 baud
   sensor1.begin();         // Initialize the BNO055 sensor
   sensor2.begin();
+  BLE.begin();
   delay(1000);            // Delay for sensor startup
   sensor1.setExtCrystalUse(true);  // Use external crystal for better precision
   sensor2.setExtCrystalUse(true);  // Use external crystal for better precision
+  // if (!BLE.begin()) {
+  //   BLE.println("Starting BLE module failed!"); //potentially not working?
+  //   while (1);
+  // }
+    // set advertised local name and service UUID:
+    BLE.setLocalName("NANO_ESP32"); //name that will show up on pc
+    BLE.setAdvertisedService(newService); //device broadcasts info to be discoverable by central
+  
+    // add the characteristic to the service
+    newService.addCharacteristic(rollCharacteristic);
+    newService.addCharacteristic(pitchCharacteristic);
+    newService.addCharacteristic(yawCharacteristic);
+  
+    // add service
+    BLE.addService(newService);
+  
+    // set the initial value for the characeristic:
 
-}
+    //sensorCharacteristic.writeValue(sensor_angles);
+  
+    // start advertising
+    BLE.advertise();
+  }
 
 void loop() {
   // initiate event instances
@@ -45,26 +76,31 @@ void loop() {
   }
 
   // check if angle range is too high
-  checkRange(sensor_angles, safe_angle_ranges);
+  // checkRange(sensor_angles, safe_angle_ranges);
 
 
   // Check if angle is too large and send a warning (currently in the form of a serial msg)
-  if (((float)event1.orientation.x - (float)event2.orientation.x) < safe_angle_range_x) {
-    Serial.println("")
-  }
+  // if (((float)event1.orientation.x - (float)event2.orientation.x) < safe_angle_range_x) {
+  //   Serial.println("")
+  // }
 
   // sensor's order of axes --> python code order for accurate processing
   // roll
-  Serial.print((float)event2.orientation.z);
-  Serial.print(",");
-  // pitch
-  Serial.print((float)event2.orientation.y);
-  Serial.print(",");
-  // yaw
-  Serial.println((float)event2.orientation.x);
+  // Serial.print((float)event2.orientation.z);
+  // Serial.print(",");
+  // // pitch
+  // Serial.print((float)event2.orientation.y);
+  // Serial.print(",");
+  // // yaw
+  // Serial.println((float)event2.orientation.x);
+
+  //call bluetooth function
+  btDataTransfer();
 
   // Delay to match the sensor's sampling rate
   delay(BNO055_SAMPLERATE_DELAY_MS);
+
+
 }
 
 // update the angles each loop
@@ -85,43 +121,19 @@ void checkRange(float angles[2][3], float safe_ranges[3]) {
 
 //bluetooth data transfer function
 void btDataTransfer(){
-  //test code
-  int I2C_SDA = 11;
-  int I2C_SCL = 12;
+  // listen for BLE central to connect:
+  BLEDevice central = BLE.central();
 
-  //setup code
-  Serial.begin(115200);
-  Wire.begin(I2C_SDA, I2C_SCL);
-  /*
-  or
-  #define I2C_SDA 11
-  #define I2C_SCL 12
-  */
+  // if a central is connected to peripheral:
+  if (central) {
 
-	int x = 6;
-	Serial.print(x);
-  //^figure out if it's serial or smth else because serial could be for wired only
-
-  //TODO: either send data variable by variable, or send data in an array.
-
-  /*
-  //data to send:
-  - roll, pitch, yaw -> floats
-  --> sample arguments (PUT INTO FUNCTION): float roll, float pitch, float yaw
-  - whether or not the sensor exceeds the safe angles (xxx process on computer side)
-  --> sample arguments: 
-
-  // roll
-  Serial.print((float)event2.orientation.z);
-  Serial.print(",");
-  // pitch
-  Serial.print((float)event2.orientation.y);
-  Serial.print(",");
-  // yaw
-  Serial.println((float)event2.orientation.x);
-
-  // Delay to match the sensor's sampling rate
-  delay(BNO055_SAMPLERATE_DELAY_MS);
-  */
+    // while the central is still connected to peripheral:
+    while (central.connected()) {
+      // if the remote device wrote to the characteristic,
+        rollCharacteristic.writeValue(sensor_angles[0][0]);
+        pitchCharacteristic.writeValue(sensor_angles[0][1]);
+        yawCharacteristic.writeValue(sensor_angles[0][2]);
+    }
+  }
 
 }
